@@ -219,38 +219,45 @@ public class BleService extends Service {
     }
 
     private Notification buildNotification(String status) {
-        Intent openApp = new Intent(this, MainActivity.class);
-        openApp.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent piOpen = PendingIntent.getActivity(this, 0, openApp,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    Intent openApp = new Intent(this, MainActivity.class);
+    openApp.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+    PendingIntent piOpen = PendingIntent.getActivity(this, 0, openApp,
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        Intent toggleIntent = new Intent(this, BleService.class);
-        toggleIntent.setAction(ACTION_TOGGLE);
-        PendingIntent piToggle = PendingIntent.getService(this, 1, toggleIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    Intent toggleIntent = new Intent(this, BleService.class);
+    toggleIntent.setAction(ACTION_TOGGLE);
+    PendingIntent piToggle = PendingIntent.getService(this, 1, toggleIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        Intent stopIntent = new Intent(this, BleService.class);
-        stopIntent.setAction(ACTION_STOP);
-        PendingIntent piStop = PendingIntent.getService(this, 2, stopIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    Intent stopIntent = new Intent(this, BleService.class);
+    stopIntent.setAction(ACTION_STOP);
+    PendingIntent piStop = PendingIntent.getService(this, 2, stopIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("ESP LED")
-                .setContentText(status)
-                .setSmallIcon(android.R.drawable.ic_menu_send)
-                .setContentIntent(piOpen)
-                .setOngoing(true)
-                .setSilent(true);
+    MediaStyle mediaStyle = new MediaStyle();
 
-        // Przycisk Przełącz tylko gdy nie jest busy
-        if (!isBusy) {
-            builder.addAction(android.R.drawable.ic_media_play, "🔁 Przełącz", piToggle);
-        }
+    NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("SWIATLO LED")
+            .setContentText(status)
+            .setSmallIcon(android.R.drawable.ic_menu_send)
+            .setContentIntent(piOpen)
+            .setOngoing(true)
+            .setSilent(true)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC); // pełna treść na ekranie blokady
 
-        builder.addAction(android.R.drawable.ic_menu_close_clear_cancel, "Stop", piStop);
-
-        return builder.build();
+    if (!isBusy) {
+        builder.addAction(android.R.drawable.ic_media_play, "🔁 Przełącz", piToggle); // index 0
+        builder.addAction(android.R.drawable.ic_menu_close_clear_cancel, "Stop", piStop);  // index 1
+        mediaStyle.setShowActionsInCompactView(0); // Przełącz widoczny bez rozwijania
+    } else {
+        builder.addAction(android.R.drawable.ic_menu_close_clear_cancel, "Stop", piStop); // index 0
+        mediaStyle.setShowActionsInCompactView(); // brak przycisku gdy busy
     }
+
+    builder.setStyle(mediaStyle);
+
+    return builder.build();
+}
 
     private void startForegroundWithNotification(String status) {
         startForeground(NOTIF_ID, buildNotification(status));
