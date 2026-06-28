@@ -22,6 +22,7 @@ import android.os.Looper;
 import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import java.util.UUID;
+import androidx.media.app.NotificationCompat.MediaStyle;
 
 public class BleService extends Service {
 
