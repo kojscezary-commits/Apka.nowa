@@ -208,9 +208,9 @@ public class BleService extends Service {
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel ch = new NotificationChannel(
-                    CHANNEL_ID, "LED Toggle",
-                    NotificationManager.IMPORTANCE_LOW);
+          NotificationChannel ch = new NotificationChannel(
+        CHANNEL_ID, "LED Toggle",
+        NotificationManager.IMPORTANCE_DEFAULT);
             ch.setDescription("Sterowanie LED przez BLE");
             ch.setShowBadge(false);
             NotificationManager nm = getSystemService(NotificationManager.class);
