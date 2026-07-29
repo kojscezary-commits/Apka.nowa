@@ -1,4 +1,4 @@
-package com.esp.bletoggle3;
+package com.esp.ble;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -39,7 +39,7 @@ public class BleService extends Service {
     public static final String ACTION_STOP             = "STOP";
 
     // Broadcasta do MainActivity – informuje o stanie busy
-    public static final String ACTION_BUSY_CHANGED     = "com.esp.bletoggle3.BUSY_CHANGED";
+    public static final String ACTION_BUSY_CHANGED     = "com.esp.ble.BUSY_CHANGED";
     public static final String EXTRA_IS_BUSY           = "is_busy";
 
     private static final String CHANNEL_ID   = "ble_toggle_channel";
@@ -76,7 +76,7 @@ public class BleService extends Service {
                     Log.d(TAG, "Już w trakcie – ignoruję kliknięcie");
                     return START_STICKY;
                 }
-                startForegroundWithNotification("⏳ Łączę z ESP...");
+                startForegroundWithNotification("⏳ Łączę ");
                 connectAndSend();
                 break;
             case ACTION_STOP:
@@ -177,12 +177,12 @@ public class BleService extends Service {
             // Rozłącz po chwili i wróć do stanu gotowości
             handler.postDelayed(() -> {
                 disconnectGatt();
-                updateNotification("Gotowy – naciśnij aby przełączyć LED");
+                updateNotification("Naciśnij aby przełączyć LED");
             }, 800);
             // Przycisk Przełącz wraca dopiero po 2.2s
             handler.postDelayed(() -> {
                 setBusy(false);
-                updateNotification("Gotowy – naciśnij aby przełączyć LED");
+                updateNotification("Naciśnij aby przełączyć LED");
             }, 2200);
         }
     };
@@ -201,7 +201,7 @@ public class BleService extends Service {
         setBusy(false);
         updateNotification("❌ " + msg);
         handler.postDelayed(() ->
-            updateNotification("Gotowy – naciśnij aby przełączyć LED"), 3000);
+            updateNotification("Naciśnij aby przełączyć LED"), 3000);
     }
 
     // ── Powiadomienie ─────────────────────────────────────────────
@@ -209,7 +209,7 @@ public class BleService extends Service {
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel ch = new NotificationChannel(
-                    CHANNEL_ID, "ESP LED Toggle",
+                    CHANNEL_ID, "LED Toggle",
                     NotificationManager.IMPORTANCE_LOW);
             ch.setDescription("Sterowanie LED przez BLE");
             ch.setShowBadge(false);
