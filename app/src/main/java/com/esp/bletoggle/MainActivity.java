@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         startServiceButton.setOnClickListener(v -> {
             startBleService();
-            Toast.makeText(this, "Stałe powiadomienie aktywowane", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "powiadomienie aktywowane", Toast.LENGTH_SHORT).show();
         });
 
         requestPermissions();
@@ -114,11 +114,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             startService(serviceIntent);
         }
-        statusText.setText("✅ Serwis BLE aktywny\nPowiadomienie widoczne w pasku");
+        statusText.setText("Powiadomienie widoczne w pasku");
     }
 
     private void sendBleCommand() {
-        statusText.setText("⏳ Łączę z ESP...");
+        statusText.setText("⏳ Łączę");
         Intent serviceIntent = new Intent(this, BleService.class);
         serviceIntent.setAction(BleService.ACTION_TOGGLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
