@@ -27,5 +27,5 @@ jobs:
       - name: Wgraj APK jako artefakt
         uses: actions/upload-artifact@v4
         with:
-          name: odkutkowy-apk
+          name: ledy-apk
           path: app/build/outputs/apk/debug/*.apk
