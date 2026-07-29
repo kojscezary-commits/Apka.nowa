@@ -242,7 +242,7 @@ public class BleService extends Service {
             .setSmallIcon(android.R.drawable.ic_menu_send)
             .setContentIntent(piOpen)
             .setOngoing(true)
-            .setSilent(true)
+            .setSilent(false)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC); // pełna treść na ekranie blokady
 
     if (!isBusy) {
