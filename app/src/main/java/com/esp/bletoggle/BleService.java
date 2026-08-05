@@ -29,7 +29,7 @@ public class BleService extends Service {
     private static final String TAG = "BleService";
 
     // ── Dane ESP ──────────────────────────────────────────────────
-    private static final String ESP_ADDRESS   = "E0:72:A1:6F:6F:2E";
+    private static final String ESP_ADDRESS   = "E0:72:A1:72:6D:2E";
     private static final UUID SERVICE_UUID    = UUID.fromString("6E400001-B5A3-F393-E0A9-E50E24DCCA9E");
     private static final UUID CHAR_UUID       = UUID.fromString("6E400002-B5A3-F393-E0A9-E50E24DCCA9E");
     // ─────────────────────────────────────────────────────────────
